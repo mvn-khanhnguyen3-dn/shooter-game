@@ -4,7 +4,6 @@ class UI {
         playBtn.addEventListener('click', this.playBtnPressed.bind(this));
 
         this.game = game;
-        console.log(game);
     }
 
     set visible(value) {

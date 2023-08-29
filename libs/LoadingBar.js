@@ -1,5 +1,5 @@
-class LoadingBar{
-	constructor(options){
+class LoadingBar {
+	constructor(options) {
 		this.domElement = document.createElement("div");
 		this.domElement.style.position = 'fixed';
 		this.domElement.style.top = '0';
@@ -27,33 +27,34 @@ class LoadingBar{
 		bar.style.width = '0';
 		barBase.appendChild(bar);
 		this.progressBar = bar;
-		
+
 		document.body.appendChild(this.domElement);
-		
-		function onprogress(delta){
-			const progress = delta*100;
+
+		function onprogress(delta) {
+			const progress = delta * 100;
 			loader.progressBar.style.width = `${progress}%`;
 		}
 	}
-	
-	set progress(delta){
-		const percent = delta*100;
+
+	set progress(delta) {
+		const percent = delta * 100;
 		this.progressBar.style.width = `${percent}%`;
 	}
-	
-	set visible(value){
-		if (value){
+
+	set visible(value) {
+		console.log(value);
+		if (value) {
 			this.domElement.style.display = 'flex';
-		}else{
+		} else {
 			this.domElement.style.display = 'none';
 		}
 	}
 
-	get loaded(){
-		if ( this.assets === undefined ) return false;
-		
-		let ploaded=0, ptotal=0;
-		Object.values(this.assets).forEach( asset => {
+	get loaded() {
+		if (this.assets === undefined) return false;
+
+		let ploaded = 0, ptotal = 0;
+		Object.values(this.assets).forEach(asset => {
 			ploaded += asset.loaded;
 			ptotal += asset.total;
 		});
@@ -61,23 +62,23 @@ class LoadingBar{
 		return ploaded == ptotal;
 	}
 
-	update(assetName, loaded, total){
-		if ( this.assets === undefined ) this.assets = {};
-		
-		if ( this.assets[assetName] === undefined ){
+	update(assetName, loaded, total) {
+		if (this.assets === undefined) this.assets = {};
+
+		if (this.assets[assetName] === undefined) {
 			this.assets[assetName] = { loaded, total };
-		}else{
+		} else {
 			this.assets[assetName].loaded = loaded;
 			this.assets[assetName].total = total;
 		}
-		
-		let ploaded=0, ptotal=0;
-		Object.values(this.assets).forEach( asset => {
+
+		let ploaded = 0, ptotal = 0;
+		Object.values(this.assets).forEach(asset => {
 			ploaded += asset.loaded;
 			ptotal += asset.total;
 		});
 
-		this.progress = ploaded/ptotal;
+		this.progress = ploaded / ptotal;
 	}
 }
 

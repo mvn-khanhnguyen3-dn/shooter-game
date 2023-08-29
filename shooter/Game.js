@@ -218,7 +218,7 @@ class Game {
 
                 this.scene.environment = envMap;
 
-                this.loadingBar.visible = !this.loadingBar.loaded;
+                this.loadingBar.visible = false;
             },
             xhr => {
                 this.loadingBar.update('envmap', xhr.loaded, xhr.total);

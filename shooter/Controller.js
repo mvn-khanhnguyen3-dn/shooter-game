@@ -189,8 +189,8 @@ class Controller {
     }
 
     fire(mode) {
-        console.log(`Fire:${mode}`);
-        this.user.firing = mode;
+        //console.log(`Fire:${mode}`);
+        if (this.game.active) this.user.firing = mode;
     }
 
     onMove(up, right) {
@@ -228,6 +228,16 @@ class Controller {
     }
 
     update(dt = 0.0167) {
+        if (!this.game.active) {
+            let lerpSpeed = 0.03;
+            this.cameraBase.getWorldPosition(this.tmpVec3);
+            this.game.seeUser(this.tmpVec3, true);
+            this.cameraBase.getWorldQuaternion(this.tmpQuat);
+            this.camera.position.lerp(this.tmpVec3, lerpSpeed);
+            this.camera.quaternion.slerp(this.tmpQuat, lerpSpeed);
+            return;
+        }
+
         let playerMoved = false;
         let speed;
 
@@ -267,8 +277,8 @@ class Controller {
         }
 
         if (playerMoved) {
-            this.cameraBase.getWorldPosition(this.tmpVec3);
-            this.camera.position.lerp(this.tmpVec3, 0.7);
+            //this.cameraBase.getWorldPosition(this.tmpVec3);
+            //this.camera.position.lerp(this.tmpVec3, 0.7);
             //if (speed) console.log(speed.toFixed(2));
             let run = false;
             if (speed > 0.03) {
@@ -293,6 +303,8 @@ class Controller {
         if (this.look.up == 0 && this.look.right == 0) {
             let lerpSpeed = 0.7;
             this.cameraBase.getWorldPosition(this.tmpVec3);
+            this.cameraBase.getWorldQuaternion(this.tmpQuat);
+
             if (this.game.seeUser(this.tmpVec3, true)) {
                 this.cameraBase.getWorldQuaternion(this.tmpQuat);
             } else {
